@@ -7,7 +7,7 @@ public class GameManager
 {
     GameObject _player;
     //Dictionary<int, GameObject> _players = new Dictionary<int, GameObject>();
-    HashSet<GameObject> _monsters = new HashSet<GameObject>();
+    HashSet<GameObject> _monsters = new HashSet<GameObject>();//id로 관리x 서버 붙이기전에는 hashset으로관리 나중에는 Dictionary로
 
     public Action<int> OnSpawnEvent;
     public GameObject GetPlayer() { return _player; }

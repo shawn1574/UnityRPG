@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class ResourceManager 
 {
+    //temp
+    public int n = 0;
    public T Load<T>(string path)where T:Object 
     {
         if(typeof(T)==typeof(GameObject))
@@ -35,7 +37,9 @@ public class ResourceManager
             return Manager.Pool.Pop(original, parent).gameObject;
 
         GameObject go = Object.Instantiate(original, parent);//씬에 배치까지
-        go.name = original.name;
+        go.name = original.name+n;
+        n++;
+        
         return go;
     }
 

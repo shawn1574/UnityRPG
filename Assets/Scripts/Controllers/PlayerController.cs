@@ -11,9 +11,11 @@ public class PlayerController : BaseController
     int _mask = (1 << (int)Define.Layer.Ground) | (1 << (int)Define.Layer.Monster);
     PlayerStat _stat;
     bool _stopSkill = false;
+   
 
     public override void Init()
     {
+       
         WorldObjectType = Define.WorldObject.Player;
         _stat = gameObject.GetComponent<PlayerStat>();
         Manager.Input.MouseAction -= OnMouseEvent;
@@ -22,8 +24,12 @@ public class PlayerController : BaseController
         if (gameObject.GetComponentInChildren<UI_HPBar>() == null)
             Manager.UI.MakeWorldSpaceUI<UI_HPBar>(transform);
 
+          
+
+        State = Define.State.Idle;
+
         //temp
-       // Manager.UI.ShowSceneUI<UI_Inven>();
+        // Manager.UI.ShowSceneUI<UI_Inven>();
     }
    
    protected override void UpdateMoving()
@@ -83,26 +89,42 @@ public class PlayerController : BaseController
 
     void OnHitEvent()
     {
-        
+       
+        MonsterController monsterController = null;
 
-        if(_lockTarget!=null)
+        if (_lockTarget!=null)
         {
            Stat targetStat= _lockTarget.GetComponent<Stat>();
-           targetStat.OnAttacked(_stat);
+           //targetStat.OnAttacked(_stat);
+
+           monsterController = _lockTarget.GetComponent<MonsterController>();
         }
 
         if (_stopSkill)
             State = Define.State.Idle;
         else
+        {
             State = Define.State.Skill;
-       
-       
+
+
+            //StartCoroutine("MonsterAttacked");
+            if (monsterController != null)
+            {
+                
+                monsterController.State = Define.State.Hit;
+              
+            }
+           
+                
+           
+            
+        }
        
     }
-    
+
+   
 
 
-    
     void OnMouseEvent(Define.MouseEvent evt)
     {
        switch(State)

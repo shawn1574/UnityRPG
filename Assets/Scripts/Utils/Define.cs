@@ -15,7 +15,8 @@ public class Define
         Die,
         Moving,
         Idle,
-        Skill
+        Skill,
+        Hit,//Ãß°¡
     }
 public enum Layer
     {

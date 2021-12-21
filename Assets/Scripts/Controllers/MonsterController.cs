@@ -8,7 +8,7 @@ public class MonsterController : BaseController
 {
     Stat _stat;
     [SerializeField]
-    float _scanRange = 10;
+    float _scanRange = 7;
     [SerializeField]
     float _attackRange = 2;
     public override void Init()
@@ -16,8 +16,10 @@ public class MonsterController : BaseController
         WorldObjectType = Define.WorldObject.Monster;
         _stat = gameObject.GetComponent<Stat>();
         
-        if(gameObject.GetComponentInChildren<UI_HPBar>()==null)
+        if(gameObject.GetComponentInChildren  <UI_HPBar>()==null)
             Manager.UI.MakeWorldSpaceUI<UI_HPBar>(transform);
+
+        State = Define.State.Idle;
     }
 
     protected override void UpdateIdle()
@@ -50,6 +52,7 @@ public class MonsterController : BaseController
                 return;
             }
         }
+        //일반 이동
         Vector3 dir = _destPos - transform.position;
         if (dir.magnitude < 0.1f)
         {
@@ -65,9 +68,6 @@ public class MonsterController : BaseController
                 nma.SetDestination(_destPos);
                 nma.speed = _stat.MoveSpeed;
           
-            
-
-
             transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(dir), 5 * Time.deltaTime);
         }
     }
@@ -83,13 +83,13 @@ public class MonsterController : BaseController
 
     }
 
-    void OnHitEvent()
+    void OnHitEvent()      
     {
 
         if (_lockTarget)
         {
              Stat targetStat = _lockTarget.GetComponent<Stat>();
-            targetStat.OnAttacked(_stat);
+             targetStat.OnAttacked(_stat);
 
 
              if (targetStat.Hp>0)

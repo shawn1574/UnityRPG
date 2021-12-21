@@ -4,9 +4,11 @@ using UnityEngine;
 
 public class PoolManager
 {
+    
     #region Pool
     class Pool
     {
+       
         public GameObject Original { get; private set; }
         public Transform Root { get; set; }
 
@@ -20,6 +22,7 @@ public class PoolManager
             for(int i=0;i<count;i++)
             {
                 Push(Create());
+                
             }
         }
 
